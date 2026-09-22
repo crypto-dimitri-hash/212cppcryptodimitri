@@ -7,6 +7,8 @@
 
 Папка рассчитана на `C:\msys64\home\wasdm\cones` (в терминале MSYS2 это `~/cones`).
 
+Репозиторий: <https://github.com/crypto-dimitri-hash/212cppcryptodimitri>
+
 ## Сколько чисел — такая и фигура
 
 | Числа в строке | Что создаётся | Вычислимые атрибуты |
