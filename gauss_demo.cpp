@@ -1,8 +1,9 @@
 /* gauss_demo.cpp -- иллюстрации к гауссову распределению.
-   Программа выдаёт три файла с числами: выборку одномерного
-   нормального распределения и два облака двумерного -- без связи
-   координат (rho = 0) и со связью (rho = 0.7). По ним gnuplot строит
-   гистограмму и точечные диаграммы.
+   Программа выдаёт выборку одномерного нормального распределения и
+   шесть облаков двумерного: круглое, вытянутое вдоль оси абсцисс,
+   вытянутое вдоль оси ординат и три облака со связью координат --
+   положительной, отрицательной и почти полной. По этим файлам gnuplot
+   строит гистограмму и точечные диаграммы.
    Автор: Горчак Дмитрий, 212 */
 
 #include <cmath>        /* std::sqrt */
@@ -21,7 +22,31 @@ const unsigned SEED = 212;
 const float MU = 0.0f;
 const float SIGMA = 1.0f;
 
+/* Описание одного двумерного облака: имя файла, разбросы по осям и
+   коэффициент связи координат. Центр у всех облаков в начале координат,
+   поэтому отдельно он не хранится. */
+struct Cloud {
+    const char *name;       /* имя файла в папке out */
+    float sigma_x;          /* разброс вдоль оси абсцисс */
+    float sigma_y;          /* разброс вдоль оси ординат */
+    float rho;              /* связь координат, от -1 до 1 */
+    const char *comment;    /* пояснение для вывода на экран */
+};
+
+/* Шесть случаев: сначала связи нет и форму задают только разбросы,
+   потом разбросы одинаковы и форму задаёт только связь. */
+const Cloud CLOUDS[] = {
+    {"gauss2d_round.txt",  1.0f, 1.0f,  0.0f,  "rho = 0, sigma равны: круглое облако"},
+    {"gauss2d_wide.txt",   2.0f, 0.6f,  0.0f,  "rho = 0, sigma_x больше: вдоль оси абсцисс"},
+    {"gauss2d_tall.txt",   0.6f, 2.0f,  0.0f,  "rho = 0, sigma_y больше: вдоль оси ординат"},
+    {"gauss2d_rho07.txt",  1.0f, 1.0f,  0.7f,  "rho = 0.7: наклон вправо вверх"},
+    {"gauss2d_rho-07.txt", 1.0f, 1.0f, -0.7f,  "rho = -0.7: наклон влево вверх"},
+    {"gauss2d_rho095.txt", 1.0f, 1.0f,  0.95f, "rho = 0.95: связь почти полная"}
+};
+const int CLOUD_COUNT = sizeof(CLOUDS) / sizeof(CLOUDS[0]);
+
 bool save_values(const std::string &filename, std::vector<float> &values);
+bool save_cloud(const Cloud &cloud, Gauss &gauss, int count);
 void print_statistics(const std::vector<float> &values);
 
 /* Автор: Горчак Дмитрий, 212
@@ -64,27 +89,15 @@ int main(int argc, char *argv[]) {
     }
     std::cout << "  saved: out/gauss1d.txt (" << count << " numbers)\n";
 
-    /* Пункт Б: двумерное распределение без связи и со связью координат */
-    for (int step = 0; step < 2; ++step) {
-        float rho = (step == 0) ? 0.0f : 0.7f;
-        std::string name = (step == 0) ? "/gauss2d_rho00.txt" : "/gauss2d_rho07.txt";
-        std::ofstream file((std::string(OUT_DIR) + name).c_str());
-
-        if (!file.is_open()) {
-            std::cout << "Error: could not write " << name << '\n';
+    /* Пункт Б: двумерные облака -- форма от разбросов и от связи координат */
+    std::cout << "\n--- Two-dimensional clouds, mu = (0, 0) ---\n";
+    for (int i = 0; i < CLOUD_COUNT; ++i) {
+        if (!save_cloud(CLOUDS[i], gauss, count / 2)) {
+            std::cout << "Error: could not write " << CLOUDS[i].name << '\n';
             return -1;
         }
-        file << "# x y   (mu = (0, 0), sigma = (1, 1), rho = " << rho << ")\n";
-        file << std::fixed << std::setprecision(4);
-        for (int i = 0; i < count / 2; ++i) {
-            float x = 0.0f;
-            float y = 0.0f;
-
-            gauss.next_point(0.0f, 0.0f, 1.0f, 1.0f, rho, x, y);
-            file << x << ' ' << y << '\n';
-        }
-        file.close();
-        std::cout << "  saved: out" << name << " (rho = " << rho << ")\n";
+        std::cout << "  saved: out/" << CLOUDS[i].name << " -- "
+                  << CLOUDS[i].comment << '\n';
     }
 
     std::cout << "\nRun 'gnuplot plot_gauss.gp' to draw the pictures.\n";
@@ -108,6 +121,33 @@ bool save_values(const std::string &filename, std::vector<float> &values) {
     file << std::fixed << std::setprecision(4);
     for (std::size_t i = 0; i < values.size(); ++i) {
         file << values[i] << '\n';
+    }
+    file.close();
+    return true;
+}
+
+/* Автор: Горчак Дмитрий, 212
+   Записывает одно двумерное облако точек: в строке две координаты.
+   Параметры:
+      cloud - описание облака (разбросы по осям и связь координат)
+      gauss - датчик случайных чисел
+      count - сколько точек построить
+   Возвращает true при успешной записи. */
+bool save_cloud(const Cloud &cloud, Gauss &gauss, int count) {
+    std::ofstream file((std::string(OUT_DIR) + "/" + cloud.name).c_str());
+
+    if (!file.is_open()) {
+        return false;
+    }
+    file << "# x y   (mu = (0, 0), sigma = (" << cloud.sigma_x << ", "
+         << cloud.sigma_y << "), rho = " << cloud.rho << ")\n";
+    file << std::fixed << std::setprecision(4);
+    for (int i = 0; i < count; ++i) {
+        float x = 0.0f;
+        float y = 0.0f;
+
+        gauss.next_point(0.0f, 0.0f, cloud.sigma_x, cloud.sigma_y, cloud.rho, x, y);
+        file << x << ' ' << y << '\n';
     }
     file.close();
     return true;
