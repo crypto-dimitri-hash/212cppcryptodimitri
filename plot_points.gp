@@ -33,3 +33,12 @@ plot "out/grid_lines.txt" using 1:2 with lines lw 1 lc rgb "#c0c0c0" notitle, \
 unset output
 
 print "plots are ready: out/points_clusters.png, out/points_grid.png"
+
+# 3. Те же кластеры в окне на экране: терминал qt вместо файла png
+set terminal qt size 760,620 font 'Verdana,9'
+set title "Gaussian points coloured by cluster"
+set colorbox
+plot "out/grid_lines.txt" using 1:2 with lines lw 1 lc rgb "#c0c0c0" notitle, \
+     "out/points.txt" using 1:2:5 with points pt 7 ps 0.7 palette notitle
+
+pause -1 "window is open, press Enter to close it"

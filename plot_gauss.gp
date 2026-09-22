@@ -71,3 +71,17 @@ unset multiplot
 unset output
 
 print "plots are ready: out/gauss1d.png, out/gauss2d_sigma.png, out/gauss2d_rho.png"
+
+# 4. Та же гистограмма в окне на экране: терминал qt вместо файла png
+set terminal qt size 760,620 font 'Verdana,9'
+set title "One-dimensional Gaussian: sample histogram and theoretical curve"
+set size noratio
+set xlabel "value"
+set ylabel "share of the sample"
+set xrange [-4:4]
+set key top right
+plot "out/gauss1d.txt" using (bin * floor($1 / bin) + bin / 2):(1.0 / (n * bin)) \
+         smooth freq with boxes lc rgb "#4a90d9" title "histogram", \
+     density(x) with lines lw 2 lc rgb "#b22222" title "density N(0, 1)"
+
+pause -1 "window is open, press Enter to close it"

@@ -66,3 +66,18 @@ splot "out/surface_points.txt" using 1:2:3 with points pt 7 ps 0.2 \
 unset output
 
 print "plots are ready: out/plan.png, out/map.png, out/landscape.png, out/points3d.png"
+
+# 5. То же поле в окне на экране: терминал qt вместо файла png
+set terminal qt size 760,620 font 'Verdana,9'
+set title "Figures on a plane: top view"
+unset view
+set size ratio -1
+set key top left
+plot "out/plan_cones.txt"   using 1:2:3 with circles lc rgb "#4a90d9" title "cones", \
+     "out/plan_circles.txt" using 1:2:3 with circles lc rgb "#7ab648" title "circles", \
+     "out/plan_cones.txt"   using 1:2 with points pt 7 ps 0.8 lc rgb "#b22222" notitle, \
+     "out/plan_points.txt"  using 1:2 with points pt 7 ps 1.2 lc rgb "#333333" title "points", \
+     "out/plan_cones.txt"   using 1:2:(sprintf("h=%.1f", $4)) with labels \
+         offset 0,1.2 font ",8" textcolor rgb "#404040" notitle
+
+pause -1 "window is open, press Enter to close it"
