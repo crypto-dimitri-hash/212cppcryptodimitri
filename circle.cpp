@@ -74,3 +74,11 @@ void Circle::print(std::ostream &out) const {
         << ", r = " << std::setw(6) << r_
         << ", area = " << std::setw(9) << area() << ")";
 }
+
+/* Автор: Горчак Дмитрий, 212
+   Название фигуры для таблицы.
+   Параметров нет.
+   Возвращает строку "Circle". */
+const char *Circle::type_name() const {
+    return "Circle";
+}

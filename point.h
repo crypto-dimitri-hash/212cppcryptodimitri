@@ -29,6 +29,10 @@ public:
        Метод виртуальный: у Circle и Cone своя строка вывода. */
     virtual void print(std::ostream &out) const;
 
+    /* Название фигуры: "Point", "Circle" или "Cone".
+       Нужно, чтобы одинаково печатать разнородные объекты. */
+    virtual const char *type_name() const;
+
 private:
     float x_;                       /* абсцисса */
     float y_;                       /* ордината */

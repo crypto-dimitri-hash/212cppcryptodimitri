@@ -41,6 +41,7 @@ public:
     double height_at(float px, float py) const;
 
     void print(std::ostream &out) const override;
+    const char *type_name() const override;
 
 private:
     float h_;                                       /* высота */

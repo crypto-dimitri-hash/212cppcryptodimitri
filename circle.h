@@ -25,6 +25,7 @@ public:
     double area() const;
 
     void print(std::ostream &out) const override;
+    const char *type_name() const override;
 
 private:
     float r_;                                   /* радиус */

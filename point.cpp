@@ -79,3 +79,11 @@ void Point::print(std::ostream &out) const {
     out << "Point(x = " << std::setw(7) << x_
         << ", y = " << std::setw(7) << y_ << ")";
 }
+
+/* Автор: Горчак Дмитрий, 212
+   Название фигуры для таблицы.
+   Параметров нет.
+   Возвращает строку "Point". */
+const char *Point::type_name() const {
+    return "Point";
+}

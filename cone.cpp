@@ -111,3 +111,11 @@ void Cone::print(std::ostream &out) const {
         << ", h = " << std::setw(6) << h_
         << ", volume = " << std::setw(10) << volume() << ")";
 }
+
+/* Автор: Горчак Дмитрий, 212
+   Название фигуры для таблицы.
+   Параметров нет.
+   Возвращает строку "Cone". */
+const char *Cone::type_name() const {
+    return "Cone";
+}

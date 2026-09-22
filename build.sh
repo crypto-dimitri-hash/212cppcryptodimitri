@@ -1,13 +1,13 @@
 #!/bin/bash
-# build.sh -- сборка программ задачи «Конусы на плоскости» через g++, без CMake.
+# build.sh -- сборка программ через g++ (MSYS2 / Linux).
 # Автор: Горчак Дмитрий, 212
 #
-# Запуск из папки cones:
+# Запуск из этой папки:
 #   bash build.sh
-# Готовые программы складываются в папку bin (в Windows g++ сам добавит .exe).
+# Готовые программы складываются в папку bin, результаты работы -- в папку out.
 
 FLAGS="-std=c++17 -Wall -Wextra"
-SRC="src/point.cpp src/circle.cpp src/cone.cpp src/cone_io.cpp"
+CLASSES="point.cpp circle.cpp cone.cpp figures_io.cpp"
 BIN=bin
 OK=0
 FAIL=0
@@ -20,7 +20,7 @@ build() {
     local name=$1
     local app=$2
 
-    g++ $FLAGS -Iinclude $app $SRC -o $BIN/$name
+    g++ $FLAGS $app $CLASSES -o $BIN/$name
     if [ $? -eq 0 ]; then
         echo "  OK    $name"
         OK=$((OK + 1))
@@ -30,9 +30,9 @@ build() {
     fi
 }
 
-echo "cones: classes Point -> Circle -> Cone"
-build cones_app app/main.cpp        # этап к 19.09: объекты и gnuplot
-build cones_list app/list_demo.cpp  # этап к 26.09: двунаправленный список STL
+echo "classes Point -> Circle -> Cone"
+build figures main.cpp            # таблица фигур и данные для gnuplot
+build figures_list list_demo.cpp  # двунаправленный список STL
 
 echo "done: $OK OK, $FAIL failed"
-echo "run:  ./bin/cones_app  и затем  gnuplot plot/plot_cones.gp"
+echo "run:  ./bin/figures  и затем  gnuplot plot_figures.gp"
