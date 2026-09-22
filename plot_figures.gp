@@ -1,23 +1,10 @@
-# plot_figures.gp -- visualisation of the figure field (top view and landscape)
-# Автор: Горчак Дмитрий, 212
-#
-# Сначала запустить программу figures: она создаёт в папке out файлы
-# plan_points.txt, plan_circles.txt, plan_cones.txt (вид сверху),
-# field.txt (сетка высот) и range.gp (границы поля по x и y).
-# Затем из папки cones:
-#   gnuplot plot_figures.gp
-# Готовые рисунки складываются в ту же папку out.
-# Чтобы посмотреть картинку в окне, замените терминал на: set terminal qt persist
-
 set terminal pngcairo size 1000,800 font 'Verdana,10'
 set grid
 set xlabel "x"
 set ylabel "y"
 
-# Границы поля посчитаны программой, а не заданы руками
 load 'out/range.gp'
 
-# 1. Вид сверху: конусы, круги и точки -- каждый своим стилем
 set output "out/plan.png"
 set title "Figures on a plane: top view"
 set size ratio -1
@@ -31,7 +18,6 @@ plot "out/plan_cones.txt"   using 1:2:3 with circles lc rgb "#4a90d9" title "con
          offset 0,1.2 font ",8" textcolor rgb "#404040" notitle
 unset output
 
-# 2. Карта высот: ландшафт конусов, вид строго сверху
 set output "out/map.png"
 set title "Height map z(x, y)"
 set view map
@@ -42,7 +28,6 @@ unset key
 splot "out/field.txt" using 1:2:3 with pm3d notitle
 unset output
 
-# 3. Ландшафт: поверхность z(x, y) над плоскостью
 set output "out/landscape.png"
 set title "Cone landscape z(x, y)"
 unset view
@@ -55,7 +40,6 @@ set hidden3d
 splot "out/field.txt" using 1:2:3 with pm3d notitle
 unset output
 
-# 4. Фигуры точками: облако точек на поверхности каждой фигуры
 set output "out/points3d.png"
 set title "Figures drawn with points on their surface"
 unset pm3d
@@ -67,7 +51,6 @@ unset output
 
 print "plots are ready: out/plan.png, out/map.png, out/landscape.png, out/points3d.png"
 
-# 5. То же поле в окне на экране: терминал qt вместо файла png
 set terminal qt size 760,620 font 'Verdana,9'
 set title "Figures on a plane: top view"
 unset view

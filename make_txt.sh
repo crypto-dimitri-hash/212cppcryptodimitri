@@ -1,19 +1,20 @@
 #!/bin/bash
-# make_txt.sh -- копии всех исходников с расширением .txt (для отправки письмом).
-# Автор: Горчак Дмитрий, 212
-#
-# Запуск из этой папки:
-#   bash make_txt.sh
-# Копии складываются в папку txt: point.h -> txt/point.h.txt и так далее.
 
 DIR=txt
 
 mkdir -p $DIR
 rm -f $DIR/*.txt
 
-for file in *.h *.cpp; do
-    cp "$file" "$DIR/$file.txt"
-    echo "  $file -> $DIR/$file.txt"
+for file in *.cpp; do
+    name="${file%.cpp}"
+    cp "$file" "$DIR/$name.txt"
+    echo "  $file -> $DIR/$name.txt"
+done
+
+for file in *.h; do
+    name="${file%.h}"
+    cp "$file" "$DIR/$name-h.txt"
+    echo "  $file -> $DIR/$name-h.txt"
 done
 
 echo "done: $(ls -1 $DIR | wc -l) файлов"

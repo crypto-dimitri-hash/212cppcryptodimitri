@@ -1,10 +1,4 @@
 #!/bin/bash
-# build.sh -- сборка программ через g++ (MSYS2 / Linux).
-# Автор: Горчак Дмитрий, 212
-#
-# Запуск из этой папки:
-#   bash build.sh
-# Готовые программы складываются в папку bin, результаты работы -- в папку out.
 
 FLAGS="-std=c++17 -Wall -Wextra"
 CLASSES="point.cpp circle.cpp cone.cpp figures_io.cpp grid_point.cpp grid.cpp gauss.cpp cluster.cpp"
@@ -14,8 +8,6 @@ FAIL=0
 
 mkdir -p $BIN
 
-# build ИМЯ ФАЙЛ_ПРОГРАММЫ -- компилирует программу вместе с классами
-# и по коду завершения g++ ($? равен 0 при успехе) сообщает результат
 build() {
     local name=$1
     local app=$2
@@ -31,10 +23,10 @@ build() {
 }
 
 echo "classes Point -> Circle -> Cone"
-build figures main.cpp             # таблица фигур и данные для gnuplot
-build figures_list list_demo.cpp   # двунаправленный список STL
-build points points_demo.cpp       # гауссовы точки, сетка блоков, кластеры
-build gauss_demo gauss_demo.cpp    # иллюстрации к нормальному распределению
+build figures main.cpp
+build figures_list list_demo.cpp
+build points points_demo.cpp
+build gauss_demo gauss_demo.cpp
 
 echo "done: $OK OK, $FAIL failed"
 echo "run:  ./bin/figures  и затем  gnuplot plot_figures.gp"

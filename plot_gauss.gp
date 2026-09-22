@@ -1,15 +1,5 @@
-# plot_gauss.gp -- illustrations for the Gaussian distribution
-# Автор: Горчак Дмитрий, 212
-#
-# Сначала запустить программу gauss_demo: она создаёт в папке out файл
-# gauss1d.txt и шесть файлов gauss2d_*.txt с двумерными облаками.
-# Затем из папки cones:
-#   gnuplot plot_gauss.gp
-# Готовые рисунки: out/gauss1d.png, out/gauss2d_sigma.png, out/gauss2d_rho.png.
-
 set terminal pngcairo size 1000,700 font 'Verdana,10'
 
-# 1. Одномерный случай: гистограмма выборки и теоретическая кривая
 set output "out/gauss1d.png"
 set title "One-dimensional Gaussian: sample histogram and theoretical curve"
 set xlabel "value"
@@ -20,8 +10,8 @@ set key top right
 set boxwidth 0.2
 set style fill transparent solid 0.35 border lc rgb "#1f4e79"
 
-bin = 0.2                      # ширина столбца гистограммы
-n = 5000.0                     # размер выборки
+bin = 0.2
+n = 5000.0
 mu = 0.0
 sigma = 1.0
 density(x) = exp(-(x - mu)**2 / (2 * sigma**2)) / (sigma * sqrt(2 * pi))
@@ -31,7 +21,6 @@ plot "out/gauss1d.txt" using (bin * floor($1 / bin) + bin / 2):(1.0 / (n * bin))
      density(x) with lines lw 2 lc rgb "#b22222" title "density N(0, 1)"
 unset output
 
-# 2. Двумерный случай без связи координат: форму задают только разбросы
 set terminal pngcairo size 1200,440 font 'Verdana,10'
 set output "out/gauss2d_sigma.png"
 set multiplot layout 1,3 title "Two-dimensional Gaussian, rho = 0: the shape is set by sigma"
@@ -54,7 +43,6 @@ plot "out/gauss2d_tall.txt" using 1:2 with points pt 7 ps 0.3 lc rgb "#6a3d9a" n
 unset multiplot
 unset output
 
-# 3. Двумерный случай со связью координат: разбросы равны, меняется rho
 set output "out/gauss2d_rho.png"
 set multiplot layout 1,3 title "Two-dimensional Gaussian, sigma_x = sigma_y = 1: the shape is set by rho"
 
@@ -72,7 +60,6 @@ unset output
 
 print "plots are ready: out/gauss1d.png, out/gauss2d_sigma.png, out/gauss2d_rho.png"
 
-# 4. Та же гистограмма в окне на экране: терминал qt вместо файла png
 set terminal qt size 760,620 font 'Verdana,9'
 set title "One-dimensional Gaussian: sample histogram and theoretical curve"
 set size noratio
