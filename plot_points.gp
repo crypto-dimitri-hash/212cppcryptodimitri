@@ -1,0 +1,35 @@
+# plot_points.gp -- visualisation of the Gaussian points, the block grid and the clusters
+# Автор: Горчак Дмитрий, 212
+#
+# Сначала запустить программу points: она создаёт в папке out файлы
+# points.txt (x, y, номера блока и кластера) и grid_lines.txt (линии сетки).
+# Затем из папки cones:
+#   gnuplot plot_points.gp
+# Готовые рисунки: out/points_clusters.png и out/points_grid.png.
+
+set terminal pngcairo size 1000,800 font 'Verdana,10'
+set grid
+set xlabel "x"
+set ylabel "y"
+set size ratio -1
+load 'out/range.gp'
+
+# 1. Точки, раскрашенные по номеру кластера
+set output "out/points_clusters.png"
+set title "Gaussian points coloured by cluster"
+unset key
+set palette defined (0 "#1f4e79", 1 "#4a90d9", 2 "#7ab648", 3 "#e0a030", \
+                     4 "#b22222", 5 "#7b4ea3", 6 "#2f9e8f")
+set cblabel "cluster"
+plot "out/points.txt" using 1:2:5 with points pt 7 ps 0.7 palette notitle
+unset output
+
+# 2. Те же точки и сетка блоков: у каждой точки есть две координаты блока
+set output "out/points_grid.png"
+set title "Points and the grid of blocks"
+unset colorbox
+plot "out/grid_lines.txt" using 1:2 with lines lw 1 lc rgb "#c0c0c0" notitle, \
+     "out/points.txt" using 1:2:5 with points pt 7 ps 0.6 palette notitle
+unset output
+
+print "plots are ready: out/points_clusters.png, out/points_grid.png"

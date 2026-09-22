@@ -7,7 +7,7 @@
 # Готовые программы складываются в папку bin, результаты работы -- в папку out.
 
 FLAGS="-std=c++17 -Wall -Wextra"
-CLASSES="point.cpp circle.cpp cone.cpp figures_io.cpp"
+CLASSES="point.cpp circle.cpp cone.cpp figures_io.cpp grid_point.cpp grid.cpp gauss.cpp cluster.cpp"
 BIN=bin
 OK=0
 FAIL=0
@@ -31,8 +31,10 @@ build() {
 }
 
 echo "classes Point -> Circle -> Cone"
-build figures main.cpp            # таблица фигур и данные для gnuplot
-build figures_list list_demo.cpp  # двунаправленный список STL
+build figures main.cpp             # таблица фигур и данные для gnuplot
+build figures_list list_demo.cpp   # двунаправленный список STL
+build points points_demo.cpp       # гауссовы точки, сетка блоков, кластеры
+build gauss_demo gauss_demo.cpp    # иллюстрации к нормальному распределению
 
 echo "done: $OK OK, $FAIL failed"
 echo "run:  ./bin/figures  и затем  gnuplot plot_figures.gp"
