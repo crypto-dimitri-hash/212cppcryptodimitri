@@ -1,4 +1,4 @@
-set terminal pngcairo size 1000,700 font 'Verdana,10'
+set terminal png truecolor size 1000,700 font 'Verdana,10'
 
 set output "out/gauss1d.png"
 set title "One-dimensional Gaussian: sample histogram and theoretical curve"
@@ -21,7 +21,7 @@ plot "out/gauss1d.txt" using (bin * floor($1 / bin) + bin / 2):(1.0 / (n * bin))
      density(x) with lines lw 2 lc rgb "#b22222" title "density N(0, 1)"
 unset output
 
-set terminal pngcairo size 1200,440 font 'Verdana,10'
+set terminal png truecolor size 1200,440 font 'Verdana,10'
 set output "out/gauss2d_sigma.png"
 set multiplot layout 1,3 title "Two-dimensional Gaussian, rho = 0: the shape is set by sigma"
 set size ratio -1

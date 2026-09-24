@@ -1,4 +1,4 @@
-set terminal pngcairo size 1000,800 font 'Verdana,10'
+set terminal png truecolor size 1000,800 font 'Verdana,10'
 set grid
 set xlabel "x"
 set ylabel "y"

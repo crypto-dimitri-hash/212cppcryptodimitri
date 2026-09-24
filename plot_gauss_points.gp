@@ -1,4 +1,4 @@
-set terminal pngcairo size 1000,800 font 'Verdana,10'
+set terminal png truecolor size 1000,800 font 'Verdana,10'
 set grid
 set xlabel "x"
 set ylabel "y"
@@ -17,7 +17,7 @@ plot "out/gauss_grid.txt" using 1:2 with lines lw 1 lc rgb "#d8d8d8" notitle, \
      "out/gauss_means.txt" using 3:4 with points pt 6 ps 1.6 lw 2 lc rgb "#b22222" title "sample mean"
 unset output
 
-set terminal pngcairo size 1300,560 font 'Verdana,10'
+set terminal png truecolor size 1300,560 font 'Verdana,10'
 set output "out/gauss_points_cone.png"
 set multiplot layout 1,2 title sprintf("The tallest cone: r = %.1f, h = %.1f, sigma = %.2f", r, h, sigma)
 
