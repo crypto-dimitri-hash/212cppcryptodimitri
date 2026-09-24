@@ -76,7 +76,7 @@ int main(int argc, char *argv[]) {
     Gauss gauss(SEED);
 
     if (argc > 3) {
-        std::cout << "Usage: " << argv[0] << " [data_file] [points_per_circle]\n";
+        std::cout << "Usage: ./bin/gauss_points [data_file] [points_per_circle]\n";
         return -1;
     }
     if (argc >= 2) {

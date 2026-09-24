@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
     int wanted = 0;
 
     if (argc > 3) {
-        std::cout << "Usage: " << argv[0] << " [data_file] [figure_number]\n";
+        std::cout << "Usage: ./bin/figures [data_file] [figure_number]\n";
         return -1;
     }
     if (argc >= 2) {
@@ -81,7 +81,7 @@ int main(int argc, char *argv[]) {
             print_one(figures[wanted - 1], wanted, std::cout);
         }
     } else {
-        std::cout << "\nAsk for one figure: " << argv[0] << ' ' << data_file
+        std::cout << "\nAsk for one figure: ./bin/figures " << data_file
                   << " 5   (area and volume of figure 5)\n";
     }
 

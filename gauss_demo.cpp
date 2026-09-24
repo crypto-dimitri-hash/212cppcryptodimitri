@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
     std::vector<float> values;
 
     if (argc > 2) {
-        std::cout << "Usage: " << argv[0] << " [count]\n";
+        std::cout << "Usage: ./bin/gauss_demo [count]\n";
         return -1;
     }
     if (argc == 2) {

@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
     Gauss gauss(SEED);
 
     if (argc > 4) {
-        std::cout << "Usage: " << argv[0] << " [data_file] [points_per_cone] [rho]\n";
+        std::cout << "Usage: ./bin/clusters [data_file] [points_per_cone] [rho]\n";
         return -1;
     }
     if (argc >= 2) {

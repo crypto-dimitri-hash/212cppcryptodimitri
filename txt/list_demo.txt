@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
     std::list<FigurePtr> figures;
 
     if (argc > 2) {
-        std::cout << "Usage: " << argv[0] << " [data_file]\n";
+        std::cout << "Usage: ./bin/figures_list [data_file]\n";
         return -1;
     }
     if (argc == 2) {
