@@ -324,7 +324,7 @@ bool save_landscape(const std::string &filename, const std::vector<FigurePtr> &f
     step_x = (bounds.x_max - bounds.x_min) / (grid_size - 1);
     step_y = (bounds.y_max - bounds.y_min) / (grid_size - 1);
 
-    file << "# x y z  (ландшафт: высота поверхности конусов над плоскостью)\n";
+    file << "# x y z  (landscape: height of the cone surface)\n";
     file << std::fixed << std::setprecision(4);
     for (int i = 0; i < grid_size; ++i) {
         float x = bounds.x_min + i * step_x;
@@ -376,7 +376,7 @@ bool save_range(const std::string &filename, const std::vector<FigurePtr> &figur
         }
     }
 
-    file << "# границы поля, посчитанные программой figures\n";
+    file << "# field bounds computed by the program figures\n";
     file << std::fixed << std::setprecision(4);
     file << "set xrange [" << bounds.x_min << ':' << bounds.x_max << "]\n";
     file << "set yrange [" << bounds.y_min << ':' << bounds.y_max << "]\n";
@@ -408,7 +408,7 @@ bool save_surface_points(const std::string &filename,
         return false;
     }
 
-    file << "# x y z  (точки на поверхности фигур)\n";
+    file << "# x y z  (points on the surface of the figures)\n";
     file << std::fixed << std::setprecision(4);
     for (std::size_t i = 0; i < figures.size(); ++i) {
         const FigurePtr &figure = figures[i];
@@ -461,7 +461,7 @@ bool save_equations(const std::string &filename, const std::vector<FigurePtr> &f
         return false;
     }
 
-    file << "# уравнения фигур\n";
+    file << "# equations of the figures\n";
     file << std::fixed << std::setprecision(2);
     for (std::size_t i = 0; i < figures.size(); ++i) {
         const FigurePtr &figure = figures[i];

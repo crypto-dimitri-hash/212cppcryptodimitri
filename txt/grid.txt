@@ -219,7 +219,7 @@ bool Grid::save_lines(const std::string &filename) const {
         return false;
     }
 
-    file << "# x y  (линии сетки блоков, по две точки на линию)\n";
+    file << "# x y  (grid lines, two points per line)\n";
     file << std::fixed << std::setprecision(4);
     for (int i = 0; i <= nx_; ++i) {
         float x = x_min_ + i * cell_width();

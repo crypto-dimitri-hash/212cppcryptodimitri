@@ -17,4 +17,4 @@ for file in *.h; do
     echo "  $file -> $DIR/$name-h.txt"
 done
 
-echo "done: $(ls -1 $DIR | wc -l) файлов"
+echo "done: $(ls -1 $DIR | wc -l) files"

@@ -36,12 +36,12 @@ struct Cloud {
 /* Шесть случаев: сначала связи нет и форму задают только разбросы,
    потом разбросы одинаковы и форму задаёт только связь. */
 const Cloud CLOUDS[] = {
-    {"gauss2d_round.txt",  1.0f, 1.0f,  0.0f,  "rho = 0, sigma равны: круглое облако"},
-    {"gauss2d_wide.txt",   2.0f, 0.6f,  0.0f,  "rho = 0, sigma_x больше: вдоль оси абсцисс"},
-    {"gauss2d_tall.txt",   0.6f, 2.0f,  0.0f,  "rho = 0, sigma_y больше: вдоль оси ординат"},
-    {"gauss2d_rho07.txt",  1.0f, 1.0f,  0.7f,  "rho = 0.7: наклон вправо вверх"},
-    {"gauss2d_rho-07.txt", 1.0f, 1.0f, -0.7f,  "rho = -0.7: наклон влево вверх"},
-    {"gauss2d_rho095.txt", 1.0f, 1.0f,  0.95f, "rho = 0.95: связь почти полная"}
+    {"gauss2d_round.txt",  1.0f, 1.0f,  0.0f,  "rho = 0, equal sigmas: round cloud"},
+    {"gauss2d_wide.txt",   2.0f, 0.6f,  0.0f,  "rho = 0, sigma_x is larger: along the x axis"},
+    {"gauss2d_tall.txt",   0.6f, 2.0f,  0.0f,  "rho = 0, sigma_y is larger: along the y axis"},
+    {"gauss2d_rho07.txt",  1.0f, 1.0f,  0.7f,  "rho = 0.7: tilted to the right"},
+    {"gauss2d_rho-07.txt", 1.0f, 1.0f, -0.7f,  "rho = -0.7: tilted to the left"},
+    {"gauss2d_rho095.txt", 1.0f, 1.0f,  0.95f, "rho = 0.95: almost a straight line"}
 };
 const int CLOUD_COUNT = sizeof(CLOUDS) / sizeof(CLOUDS[0]);
 
@@ -117,7 +117,7 @@ bool save_values(const std::string &filename, std::vector<float> &values) {
     if (!file.is_open()) {
         return false;
     }
-    file << "# выборка нормально распределённых чисел\n";
+    file << "# sample of normally distributed numbers\n";
     file << std::fixed << std::setprecision(4);
     for (std::size_t i = 0; i < values.size(); ++i) {
         file << values[i] << '\n';
