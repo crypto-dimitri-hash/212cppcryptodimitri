@@ -1,9 +1,7 @@
-/* points_demo.cpp -- облако точек, сетка блоков и поиск сгустков.
-   Вокруг каждого конуса программа рассыпает точки по двумерному
-   нормальному (гауссову) закону: центр конуса -- среднее, радиус
-   основания задаёт разброс. Каждая точка получает, кроме собственных
-   координат, две целые координаты своего блока сетки.
-   Дальше по облаку строится матрица расстояний, по ней и порогу --
+/* clusters_demo.cpp -- поиск сгустков в облаке гауссовых точек.
+   Облако строится так же, как в программе gauss_points: вокруг каждого
+   конуса точки по двумерному нормальному закону, у каждой точки номер
+   блока сетки. По облаку строится матрица расстояний, по ней и порогу --
    двоичная матрица связей, и в полученном графе ищутся связные
    компоненты (кластеры) двумя способами: обходом и волновым алгоритмом.
    Автор: Горчак Дмитрий, 212 */
@@ -18,6 +16,7 @@
 #include "figures_io.h"
 #include "gauss.h"
 #include "grid.h"
+#include "scatter.h"
 
 const char *const DEFAULT_DATA_FILE = "figures.txt";
 const char *const OUT_DIR = "out";
@@ -86,27 +85,13 @@ int main(int argc, char *argv[]) {
               << '\n';
 
     /* Вокруг каждого конуса рассыпаем точки по двумерному Гауссу.
-       sigma берём равной половине радиуса: тогда почти все точки
-       (правило двух сигм) попадают внутрь основания конуса. */
+       sigma берём равной половине радиуса: край основания -- 2 sigma. */
+    std::vector<int> owner;
+
+    scatter_around_circles(figures, grid, gauss, per_cone, SIGMA_PART, rho, true, points,
+                           owner);
     std::cout << "\n--- Gaussian points around every cone ---\n";
     std::cout << "  points per cone: " << per_cone << ", rho = " << rho << '\n';
-    for (std::size_t i = 0; i < figures.size(); ++i) {
-        const Cone *cone = dynamic_cast<const Cone *>(figures[i].get());
-
-        if (cone == nullptr) {
-            continue;                       /* точки и круги пропускаем */
-        }
-
-        float sigma = cone->get_r() * SIGMA_PART;
-
-        for (int k = 0; k < per_cone; ++k) {
-            float x = 0.0f;
-            float y = 0.0f;
-
-            gauss.next_point(cone->get_x(), cone->get_y(), sigma, sigma, rho, x, y);
-            points.push_back(grid.make_point(x, y));
-        }
-    }
     std::cout << "  points created: " << points.size() << '\n';
 
     if (points.size() < 2) {
@@ -194,7 +179,7 @@ int main(int argc, char *argv[]) {
         std::cout << "  grid_lines.txt -- lines of the block grid\n";
     }
 
-    std::cout << "\nRun 'gnuplot plot_points.gp' to draw the clusters.\n";
+    std::cout << "\nRun 'gnuplot plot_clusters.gp' to draw the clusters.\n";
     std::cout << "Program finished.\n";
     return 0;
 }

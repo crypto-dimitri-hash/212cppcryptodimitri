@@ -1,7 +1,7 @@
 #!/bin/bash
 
 FLAGS="-std=c++17 -Wall -Wextra"
-CLASSES="point.cpp circle.cpp cone.cpp figures_io.cpp grid_point.cpp grid.cpp gauss.cpp cluster.cpp"
+CLASSES="point.cpp circle.cpp cone.cpp figures_io.cpp grid_point.cpp grid.cpp gauss.cpp scatter.cpp cluster.cpp"
 BIN=bin
 OK=0
 FAIL=0
@@ -25,8 +25,8 @@ build() {
 echo "classes Point -> Circle -> Cone"
 build figures main.cpp
 build figures_list list_demo.cpp
-build points points_demo.cpp
+build gauss_points gauss_points.cpp
 build gauss_demo gauss_demo.cpp
+build clusters clusters_demo.cpp
 
 echo "done: $OK OK, $FAIL failed"
-echo "run:  ./bin/figures  и затем  gnuplot plot_figures.gp"
